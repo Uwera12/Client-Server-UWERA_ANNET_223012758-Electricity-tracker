@@ -24,7 +24,7 @@ Hosting and payments are intentionally **not** included.
 
 ## 1. Requirements (Windows)
 
-- **Python 3.11+
+- Python 3.11+
 - **Node.js 18+ LTS** (nodejs.org)
 - A free **Supabase** project (supabase.com)
 
