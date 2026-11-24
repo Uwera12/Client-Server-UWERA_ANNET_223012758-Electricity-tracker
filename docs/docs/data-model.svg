@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <rect width="760" height="430" fill="#ffffff"/>
+  <text x="380" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#0f172a">Electricity Usage Tracker: data model</text>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#475569"/></marker></defs>
+
+  <!-- auth.users -->
+  <rect x="30" y="70" width="190" height="86" rx="8" fill="#e2e8f0" stroke="#475569"/>
+  <text x="125" y="94" text-anchor="middle" font-weight="bold">auth.users (Supabase)</text>
+  <text x="44" y="118">id (PK)</text><text x="44" y="138">email, password (hashed)</text>
+
+  <!-- profiles -->
+  <rect x="30" y="250" width="190" height="100" rx="8" fill="#fef3c7" stroke="#b45309"/>
+  <text x="125" y="274" text-anchor="middle" font-weight="bold">profiles</text>
+  <text x="44" y="298">id (PK, FK → users)</text><text x="44" y="318">full_name</text><text x="44" y="338">role = 'household'</text>
+
+  <!-- meters -->
+  <rect x="300" y="70" width="210" height="140" rx="8" fill="#fef3c7" stroke="#b45309"/>
+  <text x="405" y="94" text-anchor="middle" font-weight="bold">meters</text>
+  <text x="314" y="118">id (PK)</text><text x="314" y="138">household_id (FK → users)</text>
+  <text x="314" y="158">name  (max 100)</text><text x="314" y="178">meter_number (unique)</text><text x="314" y="196">location (max 200)</text>
+
+  <!-- readings -->
+  <rect x="540" y="70" width="190" height="140" rx="8" fill="#fef3c7" stroke="#b45309"/>
+  <text x="635" y="94" text-anchor="middle" font-weight="bold">readings</text>
+  <text x="554" y="118">id (PK)</text><text x="554" y="138">meter_id (FK → meters)</text>
+  <text x="554" y="158">kwh (≥ 0)</text><text x="554" y="178">read_date</text><text x="554" y="196" fill="#b45309">unique(meter_id, read_date)</text>
+
+  <!-- tariff -->
+  <rect x="300" y="250" width="210" height="110" rx="8" fill="#dcfce7" stroke="#15803d"/>
+  <text x="405" y="274" text-anchor="middle" font-weight="bold">tariff_bands</text>
+  <text x="314" y="298">id (PK)</text><text x="314" y="318">name, from_kwh, to_kwh</text><text x="314" y="338">rate_rwf  (to_kwh NULL = no limit)</text>
+
+  <!-- relationships -->
+  <line x1="220" y1="113" x2="298" y2="113" stroke="#475569" stroke-width="2" marker-end="url(#a)"/>
+  <text x="259" y="104" text-anchor="middle" font-size="11">1 owns</text><text x="259" y="130" text-anchor="middle" font-size="11">many</text>
+  <line x1="510" y1="113" x2="538" y2="113" stroke="#475569" stroke-width="2" marker-end="url(#a)"/>
+  <text x="524" y="62" text-anchor="middle" font-size="11">1 : many</text>
+  <line x1="125" y1="156" x2="125" y2="248" stroke="#475569" stroke-width="2" marker-end="url(#a)"/>
+  <text x="135" y="206" font-size="11">1 : 1</text>
+  <line x1="405" y1="360" x2="405" y2="388" stroke="#15803d" stroke-dasharray="4 3"/>
+  <text x="405" y="404" text-anchor="middle" font-size="12" fill="#15803d">used to calculate the bill (lookup, not linked by a key)</text>
+  <text x="635" y="260" text-anchor="middle" font-size="12" fill="#475569">Consumption and bill are calculated</text>
+  <text x="635" y="278" text-anchor="middle" font-size="12" fill="#475569">by Django, never stored twice.</text>
+</svg>
