@@ -18,7 +18,8 @@ export default function AuthProvider({ children }) {
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_event, s) => {
       setSession(s);
-      if (!s) { setMe(null); setLoading(false); }
+      setMe(null);
+      setLoading(Boolean(s));
     });
     return () => sub.subscription.unsubscribe();
   }, []);
