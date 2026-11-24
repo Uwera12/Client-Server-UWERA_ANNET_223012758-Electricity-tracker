@@ -34,7 +34,7 @@ Check in PowerShell: `python --version` and `node --version`.
 
 1. Create a project. Save the **database password**.
 2. **SQL Editor → New query**, paste `supabase/schema.sql`, **Run**. (Creates tables, tariff bands, RLS.)
-3. **Authentication → Providers → Email**: turn **Confirm email OFF** (easier for development).
+3. **Authentication → Providers → Email**: turn **Confirm email OFF**.
 4. Sign up once in the web app (step 5), then run `supabase/seed.sql` in the SQL Editor. It adds 2 meters + 8 readings (10 sample rows) to the first user.
 5. Copy these three things:
    - **Project Settings → API**: the _Project URL_ and the _anon / publishable key_
