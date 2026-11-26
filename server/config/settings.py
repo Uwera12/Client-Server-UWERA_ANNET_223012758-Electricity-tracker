@@ -11,6 +11,15 @@ load_dotenv(BASE_DIR / ".env")
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "dev-only-secret-change-me")
 DEBUG = os.getenv("DJANGO_DEBUG", "True") == "True"
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "testserver"]
+for name in ("VERCEL_URL", "VERCEL_PROJECT_PRODUCTION_URL"):
+    host = os.getenv(name)
+    if host:
+        ALLOWED_HOSTS.append(host)
+ALLOWED_HOSTS.extend(
+    host.strip()
+    for host in os.getenv("DJANGO_ALLOWED_HOSTS", "").split(",")
+    if host.strip()
+)
 
 # Only what this API needs. Users, passwords and sessions live in Supabase Auth,
 # so Django's own auth/session apps are intentionally NOT installed.
