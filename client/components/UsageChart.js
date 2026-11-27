@@ -71,60 +71,62 @@ export default function UsageChart({ meterId = null, refreshKey = 0 }) {
 
   return (
     <div className="chart-card">
-      <svg
-        viewBox={`0 0 ${W} ${H}`}
-        role="img"
-        aria-label="Monthly electricity consumption in kWh"
-      >
-        {[0, 0.5, 1].map((f) => {
-          const y = pad.t + (H - pad.t - pad.b) * (1 - f);
-          return (
-            <g key={f}>
-              <line x1={pad.l} x2={W - pad.r} y1={y} y2={y} className="grid" />
-              <text x={pad.l - 6} y={y + 4} textAnchor="end" className="axis">
-                {Math.round(max * f)}
-              </text>
-            </g>
-          );
-        })}
-        {months.map((m, i) => {
-          const h = ((H - pad.t - pad.b) * m.kwh) / max;
-          const barW = Math.min(bw * 0.7, 70);
-          const x = pad.l + i * bw + (bw - barW) / 2;
-          const y = H - pad.b - h;
-          return (
-            <g
-              key={m.month}
-              className={`bar ${m.month === picked ? "on" : ""}`}
-              role="button"
-              tabIndex={0}
-              aria-label={`${label(m.month)}: ${m.kwh} kWh`}
-              onClick={() => setPicked(m.month)}
-              onKeyDown={(e) =>
-                (e.key === "Enter" || e.key === " ") && setPicked(m.month)
-              }
-            >
-              <rect x={x} y={y} width={barW} height={Math.max(h, 1)} rx="4" />
-              <text
-                x={x + barW / 2}
-                y={y - 5}
-                textAnchor="middle"
-                className="val"
+      <div className="chart-scroll">
+        <svg
+          viewBox={`0 0 ${W} ${H}`}
+          role="img"
+          aria-label="Monthly electricity consumption in kWh"
+        >
+          {[0, 0.5, 1].map((f) => {
+            const y = pad.t + (H - pad.t - pad.b) * (1 - f);
+            return (
+              <g key={f}>
+                <line x1={pad.l} x2={W - pad.r} y1={y} y2={y} className="grid" />
+                <text x={pad.l - 6} y={y + 4} textAnchor="end" className="axis">
+                  {Math.round(max * f)}
+                </text>
+              </g>
+            );
+          })}
+          {months.map((m, i) => {
+            const h = ((H - pad.t - pad.b) * m.kwh) / max;
+            const barW = Math.min(bw * 0.7, 70);
+            const x = pad.l + i * bw + (bw - barW) / 2;
+            const y = H - pad.b - h;
+            return (
+              <g
+                key={m.month}
+                className={`bar ${m.month === picked ? "on" : ""}`}
+                role="button"
+                tabIndex={0}
+                aria-label={`${label(m.month)}: ${m.kwh} kWh`}
+                onClick={() => setPicked(m.month)}
+                onKeyDown={(e) =>
+                  (e.key === "Enter" || e.key === " ") && setPicked(m.month)
+                }
               >
-                {m.kwh}
-              </text>
-              <text
-                x={x + barW / 2}
-                y={H - 12}
-                textAnchor="middle"
-                className="axis"
-              >
-                {label(m.month)}
-              </text>
-            </g>
-          );
-        })}
-      </svg>
+                <rect x={x} y={y} width={barW} height={Math.max(h, 1)} rx="4" />
+                <text
+                  x={x + barW / 2}
+                  y={y - 5}
+                  textAnchor="middle"
+                  className="val"
+                >
+                  {m.kwh}
+                </text>
+                <text
+                  x={x + barW / 2}
+                  y={H - 12}
+                  textAnchor="middle"
+                  className="axis"
+                >
+                  {label(m.month)}
+                </text>
+              </g>
+            );
+          })}
+        </svg>
+      </div>
 
       {sel && (
         <div className="estimate">
@@ -135,26 +137,28 @@ export default function UsageChart({ meterId = null, refreshKey = 0 }) {
             {meterId ? "on this meter" : "across all your meters"}
           </p>
           {bill && (
-            <table className="mini">
-              <thead>
-                <tr>
-                  <th>Band</th>
-                  <th>kWh</th>
-                  <th>Rate</th>
-                  <th>Charge</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bill.lines.map((l) => (
-                  <tr key={l.band}>
-                    <td>{l.band}</td>
-                    <td>{l.kwh}</td>
-                    <td>{l.rate_rwf}</td>
-                    <td>{money(l.charge_rwf)}</td>
+            <div className="table-scroll">
+              <table className="mini">
+                <thead>
+                  <tr>
+                    <th>Band</th>
+                    <th>kWh</th>
+                    <th>Rate</th>
+                    <th>Charge</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {bill.lines.map((l) => (
+                    <tr key={l.band}>
+                      <td>{l.band}</td>
+                      <td>{l.kwh}</td>
+                      <td>{l.rate_rwf}</td>
+                      <td>{money(l.charge_rwf)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
           <small>
             Click another bar to compare months. Rates come from the tariff

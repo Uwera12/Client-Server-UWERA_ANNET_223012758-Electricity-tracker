@@ -57,52 +57,56 @@ function Estimator() {
       {bill && (
         <div className="card">
           <p className="big">{money(bill.total_rwf)}</p>
-          <table className="mini">
-            <thead>
-              <tr>
-                <th>Band</th>
-                <th>kWh in band</th>
-                <th>Rate (RWF/kWh)</th>
-                <th>Charge</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bill.lines.map((l) => (
-                <tr key={l.band}>
-                  <td>{l.band}</td>
-                  <td>{l.kwh}</td>
-                  <td>{l.rate_rwf}</td>
-                  <td>{money(l.charge_rwf)}</td>
+          <div className="table-scroll">
+            <table className="mini">
+              <thead>
+                <tr>
+                  <th>Band</th>
+                  <th>kWh in band</th>
+                  <th>Rate (RWF/kWh)</th>
+                  <th>Charge</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {bill.lines.map((l) => (
+                  <tr key={l.band}>
+                    <td>{l.band}</td>
+                    <td>{l.kwh}</td>
+                    <td>{l.rate_rwf}</td>
+                    <td>{money(l.charge_rwf)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
       <h2>Tariff bands</h2>
       {!tariffs ? (
         <Loading />
       ) : (
-        <table className="mini">
-          <thead>
-            <tr>
-              <th>Band</th>
-              <th>From kWh</th>
-              <th>To kWh</th>
-              <th>Rate (RWF/kWh)</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tariffs.map((t) => (
-              <tr key={t.id}>
-                <td>{t.name}</td>
-                <td>{t.from_kwh}</td>
-                <td>{t.to_kwh ?? "no limit"}</td>
-                <td>{t.rate_rwf}</td>
+        <div className="table-scroll">
+          <table className="mini">
+            <thead>
+              <tr>
+                <th>Band</th>
+                <th>From kWh</th>
+                <th>To kWh</th>
+                <th>Rate (RWF/kWh)</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {tariffs.map((t) => (
+                <tr key={t.id}>
+                  <td>{t.name}</td>
+                  <td>{t.from_kwh}</td>
+                  <td>{t.to_kwh ?? "no limit"}</td>
+                  <td>{t.rate_rwf}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </section>
   );

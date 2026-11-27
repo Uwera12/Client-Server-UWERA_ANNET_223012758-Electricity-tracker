@@ -71,24 +71,26 @@ function MeterDetail() {
         <Empty>No readings yet. Enter what your meter shows in the form above.</Empty>
       ) : (
         <>
-          <table>
-            <thead>
-              <tr>
-                <th><button className="link" onClick={() => sortBy("read_date")}>Date{arrow("read_date")}</button></th>
-                <th><button className="link" onClick={() => sortBy("kwh")}>Reading (kWh){arrow("kwh")}</button></th>
-                <th>Used since previous</th><th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.results.map((r) => (
-                <tr key={r.id}>
-                  <td>{r.read_date}</td><td>{r.kwh}</td>
-                  <td>{r.consumption_kwh == null ? "— (first reading)" : `${r.consumption_kwh} kWh`}</td>
-                  <td><button className="btn small danger" onClick={() => removeReading(r)}>Delete</button></td>
+          <div className="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th><button className="link" onClick={() => sortBy("read_date")}>Date{arrow("read_date")}</button></th>
+                  <th><button className="link" onClick={() => sortBy("kwh")}>Reading (kWh){arrow("kwh")}</button></th>
+                  <th>Used since previous</th><th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {data.results.map((r) => (
+                  <tr key={r.id}>
+                    <td>{r.read_date}</td><td>{r.kwh}</td>
+                    <td>{r.consumption_kwh == null ? "— (first reading)" : `${r.consumption_kwh} kWh`}</td>
+                    <td><button className="btn small danger" onClick={() => removeReading(r)}>Delete</button></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="pager">
             <button className="btn small" disabled={!data.previous} onClick={() => setPage(page - 1)}>← Previous</button>
             <span>Page {page} · {data.count} readings</span>
